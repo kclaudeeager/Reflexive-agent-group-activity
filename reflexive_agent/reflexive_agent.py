@@ -27,10 +27,14 @@ class ReflexiveAgent:
     def __init__(self, rooms: [Room]):
         self.rooms = rooms
 
-    @staticmethod
-    def clean_room(room: Room):
-        print(f"Cleaning room {room.room_name} ......................")
-        time.sleep(10)
+
+    def _clean_room(self,room:Room):
+        print(f"Cleaning room {room.room_name} ......................", end='', flush=True)
+        total_time = 10  # Total cleaning time in seconds
+        for progress in range(101):
+            time.sleep(total_time / 100)  # Sleep for a fraction of the total time
+            print(f"\rCleaning room {room.room_name} ... {progress}% complete", end='', flush=True)
+        print()  # Print a newline to clear the progress line
         room.change_state()
         room.last_cleaned_time = time.time()
 
@@ -40,7 +44,7 @@ class ReflexiveAgent:
             print(f"Room {room.room_name} is clean!")
         else:
             print(f"Room {room.room_name} is dirty!")
-            self.clean_room(room)
+            self._clean_room(room)
 
     def start_activities(self):
         start_time = time.time()
